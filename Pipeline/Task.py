@@ -11,7 +11,7 @@ class TaskMemory:
         """Store information in ram"""
         if key in self.__internal_memory__.keys():
             raise Exception(f'Key conflict in TaskMemory:',key)
-        self.__internal_memory__['key'] = value
+        self.__internal_memory__[key] = value
 
     def remove(self, key : str) -> object:
         """Remove object from TaskMemory"""
