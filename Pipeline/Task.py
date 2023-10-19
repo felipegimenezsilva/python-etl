@@ -78,32 +78,25 @@ class Task:
         data = self.load(data=data)
         return data
     
-class TaskQueue:
+class TaskQueue(Task):
     """Organize tasks in a queue of execution"""
 
     def __init__(self) -> None:
         """Initial configurations of TaskQueue class"""
-        self.__cache__ = TaskMemory()
+        super().__init__()
 
     def queue(self) -> list:
         """Execution queue. This function must return a list of """
         """each class to be executed (ordered by execution)"""
         raise Exception('TaskQueue.queue not implemented yet')
 
-    def updateCache(self, memory : TaskMemory) -> TaskMemory:
-        """Rewrite the cache object in the queue"""
-        self.__cache__ = memory
-
-    def getCache(self) -> TaskMemory:
-        """Returns the shared memory used by the tasks"""
-        return self.__cache__
-
     # TODO: track fails
     def run(self) -> bool:
         """Run each task in order"""
+        if not self.sharedMemory: self.sharedMemory = TaskMemory()
         for task_class in self.queue():
             task = task_class()
-            task.setSharedMemory(self.__cache__)
+            task.setSharedMemory(self.sharedMemory)
             task.run()
         return True
     
